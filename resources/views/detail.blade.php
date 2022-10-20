@@ -130,7 +130,7 @@
 								</div> <!-- row.// -->
 								<hr>
 								<a href="#" class="btn  btn-warning"> <i class="fa fa-envelope"></i> Contact Supplier </a>
-								<a href="#" class="btn  btn-outline-warning"> Start Order </a>
+								<a href="{{ url('cart/addcart') }}/{{ $sp->id }}" class="btn  btn-outline-warning"> Start Order </a>
 								<!-- short-info-wrap .// -->
 							</article> <!-- card-body.// -->
 						</aside> <!-- col.// -->

@@ -104,12 +104,13 @@
 						<div class="category-wrap dropdown py-1">
 							<button type="button" class="btn btn-light  dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Categories</button>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">Machinery / Mechanical Parts / Tools </a>
-								<a class="dropdown-item" href="#">Consumer Electronics / Home Appliances </a>
-								<a class="dropdown-item" href="#">Auto / Transportation</a>
-								<a class="dropdown-item" href="#">Apparel / Textiles / Timepieces </a>
-								<a class="dropdown-item" href="#">Home & Garden / Construction / Lights </a>
-								<a class="dropdown-item" href="#">Beauty & Personal Care / Health </a>
+								 
+									<?php $cats =  App\Models\Category::all(); ?>
+									
+								@foreach ($cats as $cat)
+								<a class="dropdown-item" href="{{ url('cat') }}/{{ $cat->id }}">{{ $cat->name }}</a>
+								@endforeach
+							
 							</div>
 						</div>
 					</div>
@@ -188,11 +189,12 @@
 								</div> <!-- widget-header .// -->
 							</div> <!-- col.// -->
 							<div class="col-auto">
-								<a href="#" class="widget-header">
+								<a href="{{url('/order')}}" class="widget-header">
 									<div class="icontext">
 										<div class="icon-wrap"><i class="text-warning icon-sm fa fa-shopping-cart"></i></div>
 										<div class="text-wrap text-dark">
-											<a href="{{url('/order')}}">Order</a> <br> Protection
+											<span class="small round badge badge-secondary">{{ count(Cart::content()) }}</span>
+											<div>Order</div>
 										</div>
 									</div>
 								</a>
@@ -291,5 +293,4 @@
 
 
 </body>
-
 </html>

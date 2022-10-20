@@ -46,25 +46,25 @@ class OrderController extends Controller
         //         ->subject('Tobe DEV')
         //         ->from('nghiphanhuu@gmail.com', 'Chien.Le.Mentor');
         // });
-        $produc = Product::all();
-        $data["email"] = "nghiphanhuu@gmail.com";
-        $data["title"] = "this is subjec";
-        $data["body"] = " <h1>This is Demo Mail Attechment Pdf File</h1>";
-        $data["item"] = [(object)["id"=>"1","name"=>'nghi'],(object)["id"=>"2","name"=>'chien']];
-        $attechfiles = [
-            public_path('file/demo.jpg'),
-            public_path('file/test1.pdf'),
-            public_path('file/test2.pdf')
-        ];
+        // $produc = Product::all();
+        // $data["email"] = "nghiphanhuu@gmail.com";
+        // $data["title"] = "this is subjec";
+        // $data["body"] = " <h1>This is Demo Mail Attechment Pdf File</h1>";
+        // $data["item"] = [(object)["id"=>"1","name"=>'nghi'],(object)["id"=>"2","name"=>'chien']];
+        // $attechfiles = [
+        //     public_path('file/demo.jpg'),
+        //     public_path('file/test1.pdf'),
+        //     public_path('file/test2.pdf')
+        // ];
  
-        Mail::send('mails.fileAttechmemtMail', $data, function($message)use($data, $attechfiles) {
-            $message->to($data["email"], "nghi")
+        // Mail::send('mails.fileAttechmemtMail', $data, function($message)use($data, $attechfiles) {
+        //     $message->to($data["email"], "nghi")
            
-                        ->subject($data["title"]);
-            foreach ($attechfiles as $file){
-                $message->attach($file);
-            }
-        });
+        //                 ->subject($data["title"]);
+        //     foreach ($attechfiles as $file){
+        //         $message->attach($file);
+        //     }
+        // });
         return view('order',['order'=>$orders]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,8 @@ class HomeController extends Controller
     public function index(){
         $products = Product::all();
         // dd($products);
-        return view('index',['products'=>$products]);
+        $cats = Category::all();
+        return view('index',['products'=>$products,'cats'=>$cats]);
     }
 
     public function list(){
@@ -60,5 +62,13 @@ class HomeController extends Controller
 
     public function order(){
         return view('order');
+    }
+    public function getProductByCat($id){
+        $products = Product::where('category_id',$id)->get();
+        // dd($product);
+        $cats = Category::all();
+
+
+        return view('index',['products' => $products,'cats'=>$cats]);
     }
 }

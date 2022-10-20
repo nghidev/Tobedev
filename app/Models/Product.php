@@ -16,12 +16,18 @@ class Product extends Model
         'real_price', 
         'sale_price', 
         'feature_image', 
-        'inventory_number'
+        'inventory_number',
+        'category_id'
     ];
 
     public function getListGallery()
     {
         return $this->hasMany(ProductGallery::class);
+    }
+    
+    public function getCategory()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function getListOrderDetail()

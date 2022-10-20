@@ -105,7 +105,7 @@
 		@foreach ($products as $item)
 			<div class="col-md-2">
 				<figure class="card card-product">
-					<div class="img-wrap"> <img src="/images/items/kgd.jpg"></div>
+					<div class="img-wrap"> <img src="{{ asset(Storage::url('images/product/' . $item->feature_image)) }}"></div>
 					<figcaption class="info-wrap">
 						<h6 class="title "><a href="{{url('/show')}}/{{$item->id}}">{{$item->name}}</a></h6>
 
@@ -137,7 +137,7 @@
 					</header>
 
 					<ul class="list-icon row">
-						<li class="col-md-4"><a href="#"><img src="images/icons/flag-usa.png"><span>United
+						<li class="col-md-4"><a href="#"><img src="{{ asset('images/icons/flag-usa.png')}}"><span>United
 									States</span></a></li>
 						<li class="col-md-4"><a href="#"><img src="images/icons/flag-in.png"><span>India</span></a></li>
 						<li class="col-md-4"><a href="#"><img src="images/icons/flag-tr.png"><span>Turkey</span></a>

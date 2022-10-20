@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\BE;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\Product;
+use App\Models\Category;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+
+use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
+    public $path = 'images/product';
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +23,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('be.product.index', ['products'=>$products]);
+        $products = Product::paginate(5);
+        // dd(DB::table('products')->paginate(2));
+        return view('be.product.index', ['products'=>$products, 'pagination' => DB::table('products')->paginate(5)]);
     }
 
     /**
@@ -27,7 +35,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('be.product.createbook');
+        $cats = Category::all();
+        return view('be.product.createbook', ['cats'=>$cats]);
     }
 
     /**
@@ -38,28 +47,42 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+        //dd($path);
+        //
         $rules = [
-            'code' => 'required|max:6',
+            'code' => 'unique:products|required|max:10',
             'name' => 'required'
         ];
         
         $messages = [
-            'code.required' => 'Trường này là bắt buộc nhập!',
+            'code.required' => 'Mã sách không được bỏ trống !',
             'code.max' => 'Trường này chỉ tối đa 6 ký tự',
-            'name.required' => 'Trường này là bắt buộc nhập!'
+            'name.required' => 'Tên sách không được bỏ trống!'
         ];
 
         $request->validate($rules);
         //$request->validate($rules, $messages);
 
+        
+        $file = $request->file('feature_image');
+        $file_name  = $file->getClientOriginalName();
+        //$file_type  = $file->getClientOriginalExtension();
+        $filename = uniqid().'-'.$file_name;
+        $file->storeAs('public/images/product', $filename);
+        
         $product = new Product();
+        $product->category_id = $request->category_id;
         $product->code = $request->code;
         $product->name = $request->name;
         $product->description = $request->description;
         $product->detail = $request->detail;
         $product->real_price = $request->real_price;
         $product->sale_price = $request->sale_price;
-        $product->feature_image = $request->feature_image;
+
+        $product->feature_image = $filename;
+
         $product->inventory_number = $request->inventory_number;
         $product->save();
         return $this->index();
@@ -87,7 +110,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $cats = Category::all();
+        
+        return view('be.product.editbook',['findUpdate'=>$product,'cats'=>$cats]);
     }
 
     /**
@@ -98,19 +124,57 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {
-        $products = Product::find(1);
+    {   
+        $rules = [
+            'code' => 'required|unique:products,code,'.$request->input('id'),
+            //'code' => 'unique:products|required|max:6',
+            'name' => 'required'
+        ];
+         $messages =[
+            'code.unique'=> 'Mã không được phép trùng nhau'
+         ];
+        $request->validate($rules,$messages);
+        
+        $id_book = $request->input('id');
+        // dd($find_id);
+        $products = Product::find($id_book);
 
-        $products->$request->input('code');
-        $products->$request->input('sach');
-        $products->$request->input('mo_ta');
-        $products->$request->input('chi_tiet');
-        $products->$request->input('gia_that');
-        $products->$request->input('gia_sale');
-        $products->$request->input('so_luong');
+        // $products->code = $request->input('code');
+        // $products->$request->input('sach');
+        // $products->$request->input('mo_ta');
+        // $products->$request->input('chi_tiet');
+        // $products->$request->input('gia_that');
+        // $products->$request->input('gia_sale');
+        // $products->$request->input('so_luong')
+        $products->category_id = $request->category_id;
+        
+        $products->code = $request->code;
+        $products->name = $request->name;
+        $products->description = $request->description;
+        $products->detail = $request->detail;
+        $products->real_price = $request->real_price;
+        $products->sale_price = $request->sale_price;
+
+        
+        if ($request->hasFile('feature_image')) {
+            if ($products->feature_image && Storage::disk('public')->exists('images/product/' . $products->feature_image)) {
+                Storage::disk('public')->delete('images/product/' . $products->feature_image);
+            }
+
+            $file = $request->file('feature_image');
+            $file_name  = $file->getClientOriginalName();
+            $filename = uniqid().'-'.$file_name;
+            $file->storeAs('public/images/product', $filename);
+            
+            $products->feature_image = $filename;
+        }
+
+
+        $products->inventory_number = $request->inventory_number;
        
         // dd($request->input());
         $products->save();
+        return $this->index();
     }
 
     /**
@@ -121,6 +185,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $products = Product::find($id);
+        // dd($products);
+        $products->delete();
+        return $this->index();
     }
 }

@@ -7,6 +7,11 @@
 @endforeach --}}
 {{-- {{$order->getListDetail->price->get()}} --}}
 	<!-- ========================= SECTION CONTENT ========================= -->
+	@foreach (Cart::content() as $item)
+			<p>{{ $item->name }}</p>
+			<p>{{ $item->qty }}</p>
+	@endforeach
+	
 	<section class="section-content bg padding-y border-top">
 		<div class="container">
 
