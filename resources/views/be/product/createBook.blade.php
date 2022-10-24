@@ -67,9 +67,15 @@
                     </div>
                   </div>
                 <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Chọn ảnh</label>
+                  <label for="inputNumber" class="col-sm-2 col-form-label">Chọn ảnh đặc trưng</label>
                   <div class="col-sm-10">
                     <input class="form-control" type="file" name="feature_image" id="feature_image">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-2 col-form-label">Chọn bộ sưu tập ảnh</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="file" name="product_galleries[]" multiple id="product_galleries">
                   </div>
                 </div>
                 <div class="row mb-3">

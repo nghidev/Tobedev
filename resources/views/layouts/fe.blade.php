@@ -105,7 +105,7 @@
 							<button type="button" class="btn btn-light  dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Categories</button>
 							<div class="dropdown-menu">
 								 
-									<?php $cats =  App\Models\Category::all(); ?>
+									<?php $cats =  App\Models\Category::orderBy('sort_order', 'DESC')->get(); ?>
 									
 								@foreach ($cats as $cat)
 								<a class="dropdown-item" href="{{ url('cat') }}/{{ $cat->id }}">{{ $cat->name }}</a>

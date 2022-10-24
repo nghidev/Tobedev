@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\BE;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Product;
+use Hash;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Category;
 use App\Models\OrderDetail;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\ProductGallery;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\Redirect;
 use SebastianBergmann\FileIterator\Facade;
-use Hash;
 
 class CategoryController extends Controller
 {
@@ -24,9 +27,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-        dd($category);
-        return view('be.product.categories');
+        $categories = Category::all();
+        return view('be.category.index', ['categories' => $categories]);
     }
 
     /**
@@ -36,7 +38,16 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $numMaxPlusOne = Category::max('sort_order') + 1;
+        return view('be.category.create', ['numMaxPlusOne' => $numMaxPlusOne]);
+    }
+
+    public function addSlug(Request $request)
+    {
+
+        $slug = Str::slug($request->input('name'));
+
+        return response()->json(['slug' => $slug]);
     }
 
     /**
@@ -47,7 +58,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'slug' => 'required|unique:categories,slug'
+        ];
+        $request->validate($rules);
+
+        $product = new Category();
+        $product->slug = $request->input('slug');
+        $product->name = $request->input('name');
+        $product->sort_order = $request->input('sort_order');
+        $product->save();
+        return redirect()->route('be.category.index');
     }
 
     /**

@@ -35,6 +35,8 @@ Route::get('/order_detail/{id}', [App\Http\Controllers\OrderController::class, '
 Route::get('/cat/{id}', [App\Http\Controllers\HomeController::class, 'getProductByCat'])->name('cats');
 
 
+
+
 // ================= BACKEND ================= 
 Route::get('data_table', [App\Http\Controllers\BE\AdminController::class, 'list'])->name('be.data_table');
 Route::get('add_book', [App\Http\Controllers\BE\AdminController::class, 'add'])->name('be.add_book');
@@ -50,8 +52,13 @@ Route::post('be/product/store', [App\Http\Controllers\BE\ProductController::clas
 Route::get('be/product/{id}', [App\Http\Controllers\BE\ProductController::class, 'edit'])->name('be.product.edit');
 Route::post('be/product/update', [App\Http\Controllers\BE\ProductController::class, 'update'])->name('be.product.update');
 Route::get('be/product/delete/{id}', [App\Http\Controllers\BE\ProductController::class, 'destroy'])->name('be.product.delete');
-Route::get('be/category', [App\Http\Controllers\BE\CategoryController::class, 'index'])->name('be.product.category');
+
+Route::get('be/category', [App\Http\Controllers\BE\CategoryController::class, 'index'])->name('be.category.index');
+Route::get('be/category/create', [App\Http\Controllers\BE\CategoryController::class, 'create'])->name('be.category.create');
+Route::post('be/category/store', [App\Http\Controllers\BE\CategoryController::class, 'store'])->name('be.category.store');
+
+Route::get('be/category/slug/add', [App\Http\Controllers\BE\CategoryController::class, 'addSlug'])->name('be.category.slug.add');
 
 	// ================= addcart ================= 	
 Route::get('cart/addcart/{id}', [App\Http\Controllers\BE\CartController::class, 'show'])->name('cart.addcart');
-		
+Route::get('cart/remove', [App\Http\Controllers\BE\CartController::class, 'destroy'])->name('cart.destroy');

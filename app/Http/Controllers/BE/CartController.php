@@ -51,7 +51,7 @@ class CartController extends Controller
         $cart = Cart::add([
             'id' => $product->id,
             'name' => $product->name,
-            'price' => $product->real_price,
+            'price' => $product->sale_price == 0?$product->real_price:$product->sale_price,
             'qty' => 1,
             'weight' => 0,
             'options' => [
@@ -90,8 +90,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        Cart::destroy();
+        return view('order');
     }
 }

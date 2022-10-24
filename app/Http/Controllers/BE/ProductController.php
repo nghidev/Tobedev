@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BE;
 
 use App\Models\Product;
+use App\Models\ProductGallery;
 use App\Models\Category;
 
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
+        $products = Product::orderBy('id','DESC')->paginate(5);
         // dd(DB::table('products')->paginate(2));
         return view('be.product.index', ['products'=>$products, 'pagination' => DB::table('products')->paginate(5)]);
     }
@@ -47,8 +48,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         
+        //dd($request->file('product_galleries'));
         //dd($path);
         //
         $rules = [
@@ -82,10 +83,27 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
 
         $product->feature_image = $filename;
-
+        
         $product->inventory_number = $request->inventory_number;
         $product->save();
-        return $this->index();
+
+
+        //Add product_galleries
+
+        $file_product_galleries = $request->file('product_galleries');
+        foreach($file_product_galleries as $fileItem){
+            $fileItem_name  = $fileItem->getClientOriginalName();
+            $fileItemName = uniqid().'-'.$fileItem_name;
+            $fileItem->storeAs('public/images/product', $fileItemName);
+
+            $productGallery =  new ProductGallery();
+            $productGallery->product_id = $product->id;
+            $productGallery->image = $fileItemName;
+            $productGallery->save();
+        }
+
+        // return $this->index();
+        return redirect()->route('be.product.index');
     }
 
     /**

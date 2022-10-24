@@ -54,6 +54,9 @@
                                 <td>{{ $item->inventory_number }}</td>
                                 <td>{{ $item->real_price }}</td>
                                 <td>
+                                    <button type="button" class="btn btn-primary product-gallery" data-product-gallery="{{ $item->getListGallery()->get() }}" data-bs-toggle="modal" data-bs-target="#fullscreenModal">
+                                    BST <span class="badge bg-primary badge-number">{{ $item->getListGallery()->count() }}</span>
+                                    </button>
                                     <a href="{{ url('be/product/') }}/{{ $item->id }}" class="edit"
                                         data-toggle="modal"><i class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></a>
@@ -127,6 +130,24 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="fullscreenModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Bộ siêu tập ảnh</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="show-product-gallery">
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -183,4 +204,35 @@
             </div>
         </div>
     </div>
+    
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+          
+            $(".product-gallery").click(function() {
+                const dataProductGallery = $(this).data('product-gallery');
+                $('#show-product-gallery').empty();
+                
+                dataProductGallery.forEach(element => {
+                    console.log(`<img src="${element.image}" alt="">`)
+                    const img = `<img src="{{ asset(Storage::url('images/product/')) }}/${element.image}"
+                                        style="height: 100px;width:100px;"></img>`;
+                    //img += `<img src="${element.image}" alt="">`
+                    $('#show-product-gallery').append(img);
+                });
+                
+                
+                // @foreach ($products as $item)
+                //     {{ $item->getListGallery()->count() }}
+                // @endforeach
+                //alert(dataProductGallery);
+            });
+
+           
+
+        });
+    </script>
+   
+  @endpush

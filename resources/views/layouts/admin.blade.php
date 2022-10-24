@@ -272,9 +272,9 @@
 
         /* Modal styles */
 
-        .modal .modal-dialog {
+        /* .modal .modal-dialog {
             max-width: 400px;
-        }
+        } */
 
         .modal .modal-header,
         .modal .modal-body,
@@ -727,7 +727,7 @@
             </li>
             <!-- End Tables Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -748,10 +748,10 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- End Charts Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -772,7 +772,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- End Icons Nav -->
 
             <li class="nav-heading">Pages</li>
@@ -783,7 +783,12 @@
                     <span>San Pham</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('be.category.index') }}">
+                    <i class="bi bi-table"></i>
+                    <span>Loại sản phẩm</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="users-profile.html">
                     <i class="bi bi-person"></i>
@@ -792,7 +797,7 @@
             </li>
             <!-- End Profile Page Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-faq.html">
                     <i class="bi bi-question-circle"></i>
                     <span>F.A.Q</span>
@@ -837,7 +842,7 @@
                     <i class="bi bi-file-earmark"></i>
                     <span>Blank</span>
                 </a>
-            </li>
+            </li> --}}
             <!-- End Blank Page Nav -->
 
         </ul>
@@ -870,6 +875,7 @@
 
     <!-- Vendor JS Files -->
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/chart.js/chart.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
@@ -877,6 +883,7 @@
     <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>

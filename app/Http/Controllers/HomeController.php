@@ -34,7 +34,8 @@ class HomeController extends Controller
     public function index(){
         $products = Product::all();
         // dd($products);
-        $cats = Category::all();
+        // $cats = Category::all();
+        $cats = Category::orderBy('sort_order', 'ASC')->get();
         return view('index',['products'=>$products,'cats'=>$cats]);
     }
 
